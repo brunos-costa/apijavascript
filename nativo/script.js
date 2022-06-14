@@ -9,10 +9,10 @@ async function carregarDados(){
         let resultado = await fetch(url)
 
         const dados = await resultado.json()
-
+        
         for(elementos of dados.results){
             //console.log(`Sou ${elementos.name} nasci no ano ${elementos.birth_year}`)
-            console.log(elementos)
+            //console.log(elementos)
             //Criando elementos HTML dinamicamente
             /*
             const itemLista = document.createElement("li")
@@ -57,7 +57,31 @@ async function filtrarDados(idPersonagem){
     try {
         let resultado = await fetch(url)
         const dados = await resultado.json()
-        console.log(dados)
+        
+
+
+        // CRIANDO ELEMENTOS HTML
+        const linha = document.createElement("tr")
+        const tdNome = document.createElement("td")
+        const tdPeso = document.createElement("td")
+        const tdCorOlho = document.createElement("td")
+
+        //CRIANDO CONTEÚDO DAS COLUNAS
+        tdNome.textContent = dados.name
+        tdPeso.textContent = dados.mass
+        tdCorOlho.textContent = dados.eye_color
+
+        while(resultado.status != 200){
+            btnFiltrar.setAttribute("disabled", "disabled")
+            btnFiltrar.textContent = "Carregando..."
+        }
+        btnFiltrar.removeAttribute("disabled")
+        btnFiltrar.textContent = "Filtrar"
+
+        // ADICIONANDO OS ELEMENTOS EM SUAS RESPECTIVAS TAGS MÃE/PAI
+        linha.appendChild(tdNome)
+        linha.appendChild(tdPeso)
+        linha.appendChild(tdCorOlho)
 
     } catch (error) {
         console.log("o erro é seguinte: ", error)
