@@ -56,8 +56,7 @@ async function filtrarDados(idPersonagem){
     const url = `https://swapi.dev/api/people/${idPersonagem}/?format=json`
     try {
         let resultado = await fetch(url)
-        const dados = await resultado.json()
-        
+        const dados = await resultado.json()       
 
 
         // CRIANDO ELEMENTOS HTML
@@ -71,17 +70,17 @@ async function filtrarDados(idPersonagem){
         tdPeso.textContent = dados.mass
         tdCorOlho.textContent = dados.eye_color
 
-        while(resultado.status != 200){
-            btnFiltrar.setAttribute("disabled", "disabled")
-            btnFiltrar.textContent = "Carregando..."
-        }
-        btnFiltrar.removeAttribute("disabled")
-        btnFiltrar.textContent = "Filtrar"
-
         // ADICIONANDO OS ELEMENTOS EM SUAS RESPECTIVAS TAGS MÃE/PAI
         linha.appendChild(tdNome)
         linha.appendChild(tdPeso)
         linha.appendChild(tdCorOlho)
+
+        // SE HOUVER ALGUMA LINHA, SERÁ REMOVIDA
+        if(tabela.children.length > 0){
+            tabela.removeChild(tabela.firstElementChild)
+        }
+        tabela.appendChild(linha)
+
 
     } catch (error) {
         console.log("o erro é seguinte: ", error)
@@ -91,11 +90,20 @@ async function filtrarDados(idPersonagem){
 //carregarDados()
 
 btnFiltrar.addEventListener('click',(evento)=>{
+
     evento.preventDefault()
+ 
+
     if(campoBusca.value != "" && campoBusca.value >= 1 && campoBusca.value <= 82){
+
         filtrarDados(campoBusca.value)
+
     }
     else{
         alert("Insira um valor válido no campo para pesquisar")
     }
+
+
+    
+
 })
